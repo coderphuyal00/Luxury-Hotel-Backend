@@ -13,7 +13,11 @@ class Room(models.Model):
     )
     room_number=models.IntegerField(blank=False,null=False)
     type=models.CharField(max_length=20,choices=ROOM_TYPES)
+<<<<<<< HEAD
     status=models.CharField(max_length=50,choices=ROOM_STATUS,blank=False,null=False)
+=======
+    status=models.CharField(choices=ROOM_STATUS,blank=False,null=False)
+>>>>>>> 13a6abb53917f18b0dca32157c6d561ed938d84b
     price=models.IntegerField(blank=False,null=False)
     image=models.ImageField(upload_to='room_images/')
     added_on=models.DateTimeField(auto_now_add=True)

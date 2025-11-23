@@ -15,6 +15,7 @@ def book_room(request, id):
         if room.status == "booked":
             return render(request, 'already_booked.html', {"room": room})
 
+<<<<<<< HEAD
         if request.method == 'POST':
             name = request.POST.get('customer_name')
             phone = request.POST.get('phone_number')
@@ -28,6 +29,24 @@ def book_room(request, id):
                 check_in=check_in,
                 check_out=check_out
             )
+=======
+    if request.method == 'POST':
+        import json
+        data = json.loads(request.body.decode('utf-8'))
+
+        name = data.get('customer_name')
+        phone = data.get('phone_number')
+        check_in = data.get('check_in')
+        check_out = data.get('check_out')
+        
+        Booking.objects.create(
+            room=room,
+            customer_name=name,
+            phone_number=phone,
+            check_in=check_in,
+            check_out=check_out
+        )
+>>>>>>> 13a6abb53917f18b0dca32157c6d561ed938d84b
 
             room.status = 'booked'
             room.save()
