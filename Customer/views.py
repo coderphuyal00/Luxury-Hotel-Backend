@@ -3,11 +3,13 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from .models import Customer
+from django.contrib.auth import authenticate,login
 # Create your views here.
 
 # views.py
 from django.shortcuts import render, redirect
 from .models import Customer
+
 
 def add_customer(request):
     if request.method == 'POST':
@@ -44,3 +46,21 @@ def update_customer(request, id):
 def customer_list(request):
     customers = Customer.objects.all()
     return render(request, 'customer_list.html', {'customers': customers})
+
+def login_customer(request):
+    if request.method=="POST":
+        import json
+        data=json.loads(request.body.decode('utf-8'))
+        
+        email=data.get('email')
+        password=data.get('password')
+        customer=authenticate(request,email=email,password=password)
+
+        if customer is not None:
+            login(request, customer)
+            return redirect('home')  
+        else:
+            messages.error(request, "Invalid username or password")
+            return redirect('login')
+
+        return render(request,'login.html')
