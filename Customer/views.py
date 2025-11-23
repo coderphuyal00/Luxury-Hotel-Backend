@@ -1,31 +1,37 @@
 from django.shortcuts import render,get_object_or_404
-from django.http import JsonResponse
+from django.http import JsonResponse,HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 from .models import Customer
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 # views.py
 from django.shortcuts import render, redirect
 from .models import Customer
 
+@csrf_exempt
 def add_customer(request):
     if request.method == 'POST':
-        name = request.POST.get('name')
-        phone = request.POST.get('phone_number')
-        email = request.POST.get('email')
+        import json
+        data = json.loads(request.body.decode('utf-8'))
 
-        Customer.objects.create(
+        name = data.get('name')
+        phone = data.get('phone_number')
+        email = data.get('email')
+        Customer.objects.update_or_create(
             name=name,
             phone_number=phone,
             email=email
         )
-        return redirect('customer_list')
+        return redirect('/')
 
     
     if request.method == "DELETE":
         Customer.delete()
-    return render(request, 'add_customer.html')
+
+    return HttpResponse("added successfully ")
+    # return render(request, 'add_customer.html')
 
 def update_customer(request, id):
     customer = get_object_or_404(Customer, id=id)
@@ -43,4 +49,6 @@ def update_customer(request, id):
 
 def customer_list(request):
     customers = Customer.objects.all()
-    return render(request, 'customer_list.html', {'customers': customers})
+    data=list(customers.values())
+    # return render(request, 'customer_list.html', {'customers': customers})
+    return JsonResponse(data,safe=False)

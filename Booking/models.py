@@ -7,7 +7,7 @@ class Booking(models.Model):
     booked_by=models.ForeignKey(Customer,related_name='customer',on_delete=models.CASCADE)
     room_booked=models.ForeignKey(Room,related_name="booked_room",on_delete=models.CASCADE)
     booked_at=models.DateTimeField(blank=False,null=False)
-    staying_people=models.IntegerField(max_length=3,null=False,blank=False)
+    staying_people=models.IntegerField(null=False,blank=False)
     check_in = models.DateField()
     check_out = models.DateField()
 

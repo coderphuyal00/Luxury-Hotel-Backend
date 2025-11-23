@@ -11,10 +11,10 @@ class Room(models.Model):
         ('occupied','Occupied'),
         ('under_maintenance','Under Maintenance')
     )
-    room_number=models.IntegerField(max_length=50,blank=False,null=False)
+    room_number=models.IntegerField(blank=False,null=False)
     type=models.CharField(max_length=20,choices=ROOM_TYPES)
-    status=models.CharField(max_length=50,choices=ROOM_STATUS,blank=False,null=False)
-    price=models.IntegerField(max_length=10,blank=False,null=False)
+    status=models.CharField(choices=ROOM_STATUS,blank=False,null=False)
+    price=models.IntegerField(blank=False,null=False)
     image=models.ImageField(upload_to='room_images/')
     added_on=models.DateTimeField(auto_now_add=True)
     description=models.TextField()

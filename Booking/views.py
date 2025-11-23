@@ -14,11 +14,14 @@ def book_room(request, id):
         return render(request, 'already_booked.html', {"room": room})
 
     if request.method == 'POST':
-        name = request.POST.get('customer_name')
-        phone = request.POST.get('phone_number')
-        check_in = request.POST.get('check_in')
-        check_out = request.POST.get('check_out')
+        import json
+        data = json.loads(request.body.decode('utf-8'))
 
+        name = data.get('customer_name')
+        phone = data.get('phone_number')
+        check_in = data.get('check_in')
+        check_out = data.get('check_out')
+        
         Booking.objects.create(
             room=room,
             customer_name=name,
